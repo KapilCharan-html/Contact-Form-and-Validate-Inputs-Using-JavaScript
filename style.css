@@ -1,0 +1,165 @@
+/* Page background with subtle depth */
+:root {
+  --card-w: 380px;
+  --brand-start: #66a6ff;
+  --brand-end: #89f7fe;
+  --shadow-1: rgba(0, 0, 0, 0.18);
+  --shadow-2: rgba(0, 0, 0, 0.28);
+  --error: #e53935;
+  --ok: #1b8a3c;
+  --ring: #66a6ff;
+  --text: #2a2a2a;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+}
+
+.page {
+  min-height: 100%;
+  background: linear-gradient(135deg, var(--brand-end), var(--brand-start));
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+/* 3D card */
+.card {
+  width: min(92vw, var(--card-w));
+  background: #fff;
+  border-radius: 18px;
+  padding: 26px 22px;
+  box-shadow:
+    0 10px 20px var(--shadow-1),
+    0 24px 40px var(--shadow-2);
+  transform: perspective(1000px) rotateX(6deg);
+  transform-origin: 50% 80%;
+  transition: transform 350ms ease, box-shadow 350ms ease;
+  opacity: 0;
+  animation: fadeInUp 700ms ease forwards;
+}
+
+.card:hover {
+  transform: perspective(1000px) rotateX(0deg) translateY(-3px) scale(1.02);
+  box-shadow:
+    0 16px 28px var(--shadow-1),
+    0 36px 56px var(--shadow-2);
+}
+
+h2 {
+  margin: 0 0 12px;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+/* Fields */
+.field { margin-top: 12px; }
+
+label {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px 12px;
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+  font-size: 0.98rem;
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 160ms ease;
+  background: #fff;
+  will-change: transform;
+}
+
+/* 3D lift on focus */
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--ring);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--ring) 25%, transparent);
+  transform: translateZ(0) translateY(-1px);
+}
+
+textarea { resize: vertical; min-height: 96px; }
+
+/* 3D Button */
+.btn-3d {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  background: linear-gradient(45deg, var(--brand-start), var(--brand-end));
+  box-shadow: 0 6px 0 #4a90e2, 0 10px 20px var(--shadow-1);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 200ms ease;
+  will-change: transform;
+}
+
+.btn-3d:hover {
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+}
+
+/* 3D press (down) */
+.btn-3d:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 #4a90e2, 0 6px 12px var(--shadow-1);
+}
+
+/* Errors & success */
+.error {
+  min-height: 16px;
+  margin: 6px 2px 0;
+  font-size: 0.85rem;
+  color: var(--error);
+}
+
+.success {
+  text-align: center;
+  margin-top: 14px;
+  color: var(--ok);
+  font-weight: 600;
+}
+
+/* Footer */
+.footer {
+  margin-top: 14px;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0,0,0,.35);
+}
+
+/* Shake effect (applied to the .card on invalid submit) */
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  20%,60% { transform: translateX(-10px); }
+  40%,80% { transform: translateX(10px); }
+}
+
+.shake {
+  animation: shake 420ms ease;
+}
+
+/* Entry animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px) rotateX(6deg); }
+  to   { opacity: 1; transform: translateY(0) rotateX(6deg); }
+}
+
+/* Valid/invalid visual hints */
+.input-valid {
+  border-color: #2ecc71 !important;
+}
+.input-invalid {
+  border-color: var(--error) !important;
+}
